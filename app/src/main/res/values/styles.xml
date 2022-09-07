@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="HomeTopSongs" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/topSongsTextColor</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">"sans-serif"</item>
+    </style>
+
+    <style name="MiniPlayerSongTitle" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/topSongsTextColor</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">"sans-serif"</item>
+    </style>
+
+    <style name="MiniPlayerSongArtist" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/topSongsTextColor</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">"sans-serif"</item>
+        <item name="android:alpha">0.7</item>
+    </style>
+</resources>

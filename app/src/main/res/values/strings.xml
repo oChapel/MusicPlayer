@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">MusicPlayer</string>
+
+    <!-- HomeFragment -->
+    <string name="home_top10">Топ-10: Українські пісні</string>
+    <string name="home_top100">Топ-100: Українські пісні</string>
+    <string name="home_mini_player_song_cover_desc">song cover</string>
+    <string name="home_mini_player_prev_desc">previous song button</string>
+    <string name="home_mini_player_play_pause_desc">play/pause button</string>
+    <string name="home_mini_player_next_desc">next song button</string>
+    <string name="menu_search">Search</string>
+
 </resources>
