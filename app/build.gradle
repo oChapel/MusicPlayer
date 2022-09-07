@@ -7,12 +7,12 @@ def apikeyProperties = new Properties()
 apikeyProperties.load(new FileInputStream(rootProject.file("apikey.properties")))
 
 android {
-    compileSdk 32
+    compileSdk project.compile
 
     defaultConfig {
         applicationId "com.och.musicplayer"
-        minSdk 23
-        targetSdk 32
+        minSdk project.min
+        targetSdk project.target
         versionCode 1
         versionName "1.0"
 
@@ -41,14 +41,14 @@ android {
 
 dependencies {
 
-    implementation 'com.google.android.material:material:1.6.1'
-
-    // YouTubeAndroidPlayerApi
+    implementation project(path: ':mvi')
     implementation files('libs/YouTubeAndroidPlayerApi.jar')
 
+    implementation 'com.google.android.material:material:1.6.1'
+
     // Android X
-    implementation 'androidx.core:core-ktx:1.8.0'
-    implementation 'androidx.appcompat:appcompat:1.5.0'
+    implementation "androidx.core:core-ktx:$ktx_core_version"
+    implementation "androidx.appcompat:appcompat:$appcompat_version"
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
     // AndroidX - navigation

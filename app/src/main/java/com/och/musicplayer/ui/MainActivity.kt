@@ -4,8 +4,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.och.musicplayer.R
 import com.och.musicplayer.databinding.ActivityMainBinding
+import com.och.musicplayer.ui.home.HomeContract
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), HomeContract.Host {
 
     private lateinit var binding: ActivityMainBinding
 
