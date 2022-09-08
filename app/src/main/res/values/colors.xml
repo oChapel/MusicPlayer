@@ -6,5 +6,5 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="topSongsTextColor">#EAF0FF</color>
-    <color name="songsArtistTextColor">#A5C0FFB2</color>
+    <color name="songsArtistTextColor">#A5C0FF</color>
 </resources>

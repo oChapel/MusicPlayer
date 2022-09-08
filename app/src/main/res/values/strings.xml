@@ -10,4 +10,7 @@
     <string name="home_mini_player_next_desc">next song button</string>
     <string name="menu_search">Search</string>
 
+    <!-- RecyclerViewItems -->
+    <string name="rv_song_cover_desc">song cover</string>
+
 </resources>
