@@ -1,6 +1,8 @@
 package com.och.musicplayer.data.network
 
+import com.och.musicplayer.BuildConfig
 import com.och.musicplayer.data.dto.PlaylistSchema
+import com.och.musicplayer.data.dto.SearchResultSchema
 
 class DefaultMusicPlayerNetwork(private val api: YoutubeApi) : MusicPlayerNetwork {
 
@@ -8,7 +10,8 @@ class DefaultMusicPlayerNetwork(private val api: YoutubeApi) : MusicPlayerNetwor
         return api.getPlaylist(
             YoutubeApi.PART_SNIPPET,
             YoutubeApi.TOP100_PLAYLIST,
-            count
+            count,
+            BuildConfig.YOUTUBE_API_KEY,
         )
     }
 
@@ -16,7 +19,18 @@ class DefaultMusicPlayerNetwork(private val api: YoutubeApi) : MusicPlayerNetwor
         return api.getPlaylist(
             YoutubeApi.PART_SNIPPET,
             YoutubeApi.TOP10_PLAYLIST,
-            count
+            count,
+            BuildConfig.YOUTUBE_API_KEY,
+        )
+    }
+
+    override suspend fun searchForVideo(q: String, count: Int): SearchResultSchema {
+        return api.searchForVideo(
+            YoutubeApi.PART_SNIPPET,
+            count,
+            q,
+            YoutubeApi.TYPE_VIDEO,
+            BuildConfig.YOUTUBE_API_KEY
         )
     }
 }

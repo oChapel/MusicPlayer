@@ -7,4 +7,5 @@
 
     <color name="topSongsTextColor">#EAF0FF</color>
     <color name="songsArtistTextColor">#A5C0FF</color>
+    <color name="playerTvColor">#DBE6FF</color>
 </resources>

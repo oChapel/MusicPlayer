@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MusicPlayer</string>
+    <string name="app_name">Music Player</string>
 
     <!-- HomeFragment -->
     <string name="home_top10">Топ-10: Українські пісні</string>
@@ -9,6 +9,17 @@
     <string name="home_mini_player_play_pause_desc">play/pause button</string>
     <string name="home_mini_player_next_desc">next song button</string>
     <string name="menu_search">Search</string>
+
+    <!-- PlayerFragment -->
+    <string name="player_playing_now">Playing Now</string>
+    <string name="player_playing_now_desc">hide player</string>
+    <string name="player_start_of_queue">You are at the start of the queue</string>
+    <string name="player_end_of_queue">You are at the end of the queue</string>
+    <string name="player_error">Something wrong has happened while loading video</string>
+
+    <!-- Error Fragment -->
+    <string name="error_dialog_title">An error occurred</string>
+    <string name="error_dialog_message">Failed to load playlists. Cause:</string>
 
     <!-- RecyclerViewItems -->
     <string name="rv_song_cover_desc">song cover</string>

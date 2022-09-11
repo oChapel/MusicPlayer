@@ -1,18 +1,15 @@
 package com.och.musicplayer.data.dto
 
+import com.och.musicplayer.data.dto.YoutubeItem.Companion.ITEM_TOP100
+import com.och.musicplayer.data.dto.YoutubeItem.Companion.ITEM_TOP10
 import com.och.musicplayer.data.network.YoutubeApi
 
 data class PlaylistSchema(
     val etag: String,
-    val songs: List<Song>,
+    val items: List<Song>,
     val kind: String,
     val nextPageToken: String,
     val pageInfo: PageInfo
-)
-
-data class PageInfo(
-    val resultsPerPage: Int,
-    val totalResults: Int
 )
 
 data class Song(
@@ -20,18 +17,13 @@ data class Song(
     val id: String,
     val kind: String,
     val snippet: Snippet
-) {
+) : YoutubeItem {
 
-    fun getViewHolderType(): Int {
+    override fun getViewHolderType(): Int {
         return when (snippet.playlistId) {
-            YoutubeApi.TOP10_PLAYLIST -> TOP10_SONG
-            else -> TOP100_SONG
+            YoutubeApi.TOP10_PLAYLIST -> ITEM_TOP10
+            else -> ITEM_TOP100
         }
-    }
-
-    companion object {
-        const val TOP10_SONG = 0
-        const val TOP100_SONG = 1
     }
 }
 
@@ -52,42 +44,4 @@ data class Snippet(
 data class ResourceId(
     val kind: String,
     val videoId: String
-)
-
-data class Thumbnails(
-    val default: Default,
-    val high: High,
-    val maxres: Maxres,
-    val medium: Medium,
-    val standard: Standard
-)
-
-data class Default(
-    val height: Int,
-    val url: String,
-    val width: Int
-)
-
-data class High(
-    val height: Int,
-    val url: String,
-    val width: Int
-)
-
-data class Maxres(
-    val height: Int,
-    val url: String,
-    val width: Int
-)
-
-data class Medium(
-    val height: Int,
-    val url: String,
-    val width: Int
-)
-
-data class Standard(
-    val height: Int,
-    val url: String,
-    val width: Int
 )

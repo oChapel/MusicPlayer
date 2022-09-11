@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="10dp"
     android:background="?android:attr/colorPrimary">
 
     <ImageView
         android:id="@+id/top10_song_cover"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:contentDescription="@string/rv_song_cover_desc"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toTopOf="@id/top10_song_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,9 +20,13 @@
 
     <TextView
         android:id="@+id/top10_song_title"
-        style="@style/Top10SongTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_bold"
+        android:gravity="center"
+        android:maxWidth="200dp"
+        android:textColor="@color/topSongsTextColor"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@id/top10_song_artist"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,9 +35,13 @@
 
     <TextView
         android:id="@+id/top10_song_artist"
-        style="@style/Top10SongArtist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:alpha="0.7"
+        android:fontFamily="@font/roboto_bold"
+        android:gravity="center"
+        android:textColor="@color/songsArtistTextColor"
+        android:textSize="11sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

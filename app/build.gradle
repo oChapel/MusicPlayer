@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'org.jetbrains.kotlin.kapt'
+    id 'androidx.navigation.safeargs.kotlin'
 }
 
 def apikeyProperties = new Properties()
@@ -51,9 +52,12 @@ dependencies {
     implementation "androidx.core:core-ktx:$ktx_core_version"
     implementation "androidx.appcompat:appcompat:$appcompat_version"
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    def lifecycle_version = "2.5.1"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
 
     // AndroidX - navigation
-    def nav_version = "2.5.1"
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
@@ -70,6 +74,9 @@ dependencies {
 
     //Picasso
     implementation 'com.squareup.picasso:picasso:2.8'
+
+    //SlidingUpPanel
+    implementation 'com.sothree.slidinguppanel:library:3.4.0'
 
     // testing
     testImplementation 'junit:junit:4.13.2'

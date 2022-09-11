@@ -8,8 +8,8 @@ class App : Application() {
     lateinit var component: AppComponent
 
     override fun onCreate() {
-        super.onCreate()
         instance = this
+        super.onCreate()
     }
 
     companion object {

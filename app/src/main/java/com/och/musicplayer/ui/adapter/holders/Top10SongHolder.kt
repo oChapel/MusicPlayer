@@ -10,23 +10,20 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 class Top10SongHolder(
     private val binding: ItemTop10Binding,
     private val clickFLow: MutableSharedFlow<ClickEvent>
-) : SongViewHolder(binding.root), View.OnClickListener {
+) : SongViewHolder<Song>(binding.root), View.OnClickListener {
 
     private var song: Song? = null
 
-    init{
+    init {
         binding.root.setOnClickListener(this)
     }
 
-    override fun bind(song: Song) {
-        this.song = song
-        binding.top10SongCover.layoutParams.apply { //TODO check if works
-            width = song.snippet.thumbnails.medium.width
-            height = song.snippet.thumbnails.medium.height
-        }
-        Picasso.get().load(song.snippet.thumbnails.medium.url).into(binding.top10SongCover)
-        binding.top10SongTitle.text = song.snippet.title
-        binding.top10SongArtist.text = song.snippet.videoOwnerChannelTitle //TODO
+    override fun bind(item: Song) {
+        this.song = item
+        val imageUrl = item.snippet.thumbnails.maxres?.url ?: item.snippet.thumbnails.high.url
+        Picasso.get().load(imageUrl).into(binding.top10SongCover)
+        binding.top10SongTitle.text = item.snippet.title
+        binding.top10SongArtist.text = item.snippet.videoOwnerChannelTitle
     }
 
     override fun onClick(view: View?) {

@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/top100_song_cover"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="70dp"
         android:contentDescription="@string/rv_song_cover_desc"
         app:layout_constraintBottom_toTopOf="@id/top100_song_title"
         app:layout_constraintEnd_toEndOf="parent"
@@ -18,9 +18,12 @@
 
     <TextView
         android:id="@+id/top100_song_title"
-        style="@style/Top100SongTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/gilroy_medium"
+        android:gravity="center"
+        android:textColor="@color/topSongsTextColor"
+        android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@id/top100_song_artist"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,9 +32,13 @@
 
     <TextView
         android:id="@+id/top100_song_artist"
-        style="@style/Top100SongArtist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:alpha="0.7"
+        android:fontFamily="@font/gilroy_medium"
+        android:gravity="center"
+        android:textColor="@color/songsArtistTextColor"
+        android:textSize="11sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
