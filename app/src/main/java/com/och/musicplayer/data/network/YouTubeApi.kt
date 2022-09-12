@@ -1,11 +1,11 @@
 package com.och.musicplayer.data.network
 
 import com.och.musicplayer.data.dto.PlaylistSchema
-import com.och.musicplayer.data.dto.SearchResultSchema
+import com.och.musicplayer.data.dto.SearchSchema
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface YoutubeApi {
+interface YouTubeApi {
 
     @GET("playlistItems")
     suspend fun getPlaylist(
@@ -22,7 +22,7 @@ interface YoutubeApi {
         @Query("q") q: String,
         @Query("type") type: String,
         @Query("key") apiKey: String
-    ): SearchResultSchema
+    ): SearchSchema
 
     companion object {
         const val PART_SNIPPET = "snippet"

@@ -1,7 +1,7 @@
 package com.och.musicplayer.data
 
 import com.och.musicplayer.data.dto.PlaylistSchema
-import com.och.musicplayer.data.dto.SearchResultSchema
+import com.och.musicplayer.data.dto.SearchSchema
 
 interface MusicPlayerRepository {
 
@@ -9,7 +9,7 @@ interface MusicPlayerRepository {
 
     suspend fun getTop10Playlist(): PlaylistSchema
 
-    suspend fun searchForVideo(q: String): SearchResultSchema
+    suspend fun searchForVideo(q: String): SearchSchema
 
     companion object {
         const val TOP_10_PLAYLIST_COUNT = 15

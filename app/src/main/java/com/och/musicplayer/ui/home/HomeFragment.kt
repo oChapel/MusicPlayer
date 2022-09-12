@@ -2,6 +2,7 @@ package com.och.musicplayer.ui.home
 
 import android.os.Bundle
 import android.view.*
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -9,8 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.och.musicplayer.R
-import com.och.musicplayer.data.dto.Song
-import com.och.musicplayer.data.dto.YoutubeItems
+import com.och.musicplayer.data.dto.PlaylistItem
 import com.och.musicplayer.databinding.FragmentHomeBinding
 import com.och.musicplayer.ui.MusicPlayerViewModelFactory
 import com.och.musicplayer.ui.adapter.ClickEvent
@@ -25,18 +25,16 @@ class HomeFragment : HostedFragment<
         HomeScreenState,
         HomeScreenEffect,
         HomeContract.ViewModel,
-        HomeContract.Host>(), HomeContract.View, View.OnClickListener {
+        HomeContract.Host>(), HomeContract.View {
 
     private var binding: FragmentHomeBinding? = null
     private val top10RvAdapter = YoutubeContentRecyclerAdapter()
     private val top100RvAdapter = YoutubeContentRecyclerAdapter()
-    private val top10List = ArrayList<Song>() //TODO
-    private val top100List = ArrayList<Song>() //TODO
     private val queryTextListener = object : SearchView.OnQueryTextListener {
         override fun onQueryTextSubmit(query: String?): Boolean {
             query?.let {
                 findNavController().navigate(
-                    HomeFragmentDirections.actionHomeFragmentToSearchResultFragment(
+                    HomeFragmentDirections.actionHomeFragmentToSearchFragment(
                         it
                     )
                 )
@@ -57,22 +55,20 @@ class HomeFragment : HostedFragment<
 
         lifecycleScope.launch {
             top10RvAdapter.getClickFlow().collect {
-                val clickEventItem = (it as ClickEvent.OnItemClicked).item as Song
-                findNavController().navigate(
-                    HomeFragmentDirections.actionHomeFragmentToPlayerFragment(
-                        YoutubeItems(top10List),
-                        top10RvAdapter.currentList.indexOf(clickEventItem)
-                    )
+                val clickEventItem = (it as ClickEvent.OnItemClicked).item as PlaylistItem
+                fragmentHost?.loadVideos(
+                    top10RvAdapter.currentList,
+                    top10RvAdapter.currentList.indexOf(clickEventItem)
                 )
             }
+        }
 
-            top100RvAdapter.getClickFlow().collect { //TODO
-                val clickEventItem = (it as ClickEvent.OnItemClicked).item as Song
-                findNavController().navigate(
-                    HomeFragmentDirections.actionHomeFragmentToPlayerFragment(
-                        YoutubeItems(top100List),
-                        top100RvAdapter.currentList.indexOf(clickEventItem)
-                    )
+        lifecycleScope.launch {
+            top100RvAdapter.getClickFlow().collect {
+                val clickEventItem = (it as ClickEvent.OnItemClicked).item as PlaylistItem
+                fragmentHost?.loadVideos(
+                    top100RvAdapter.currentList,
+                    top100RvAdapter.currentList.indexOf(clickEventItem)
                 )
             }
         }
@@ -105,10 +101,23 @@ class HomeFragment : HostedFragment<
             layoutManager = GridLayoutManager(context, 3)
         }
 
-        binding?.homeMiniPlayerSong?.setOnClickListener(this)
-        binding?.homeMiniPlayerButtonPrev?.setOnClickListener(this)
-        binding?.homeMiniPlayerButtonPlayPause?.setOnClickListener(this)
-        binding?.homeMiniPlayerButtonNext?.setOnClickListener(this)
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    if (fragmentHost?.isPlayerInFocus() == false) {
+                        requireActivity().moveTaskToBack(true)
+                    }
+                }
+            }
+        )
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.action_refresh) {
+            model?.reload()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun setProgressVisibility(isVisible: Boolean) {
@@ -126,24 +135,16 @@ class HomeFragment : HostedFragment<
         }
     }
 
-    override fun showPlaylistsContents(top10List: List<Song>, top100List: List<Song>) {
+    override fun showPlaylistsContents(
+        top10List: List<PlaylistItem>,
+        top100List: List<PlaylistItem>
+    ) {
         top10RvAdapter.submitList(top10List)
         top100RvAdapter.submitList(top100List)
-        this.top10List.addAll(top10List)
-        this.top100List.addAll(top100List)
     }
 
     override fun showErrorDialog(error: Throwable) {
         fragmentHost?.showErrorDialog(error)
-    }
-
-    override fun onClick(view: View?) {
-        when (view) {
-            binding?.homeMiniPlayerSong -> TODO() //TODO navigate to player
-            binding?.homeMiniPlayerButtonPrev -> TODO()
-            binding?.homeMiniPlayerButtonPlayPause -> TODO()
-            binding?.homeMiniPlayerButtonNext -> TODO()
-        }
     }
 
     override fun onDestroyView() {

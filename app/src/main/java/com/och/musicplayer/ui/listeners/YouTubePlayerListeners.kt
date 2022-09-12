@@ -1,4 +1,4 @@
-package com.och.musicplayer.ui.player
+package com.och.musicplayer.ui.listeners
 
 import com.google.android.youtube.player.YouTubePlayer
 
@@ -15,7 +15,11 @@ interface YouTubePlayerListeners : YouTubePlayer.OnInitializedListener, YouTubeP
 
     override fun onVideoEnded() {}
 
-    override fun onError(p0: YouTubePlayer.ErrorReason?) { }
+
 
     override fun onBuffering(p0: Boolean) {}
+
+    companion object {
+        const val REQUEST_DIALOG_INT = 100
+    }
 }

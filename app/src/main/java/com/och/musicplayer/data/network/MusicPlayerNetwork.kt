@@ -1,7 +1,7 @@
 package com.och.musicplayer.data.network
 
 import com.och.musicplayer.data.dto.PlaylistSchema
-import com.och.musicplayer.data.dto.SearchResultSchema
+import com.och.musicplayer.data.dto.SearchSchema
 
 interface MusicPlayerNetwork {
 
@@ -9,5 +9,5 @@ interface MusicPlayerNetwork {
 
     suspend fun getTop10Playlist(count: Int): PlaylistSchema
 
-    suspend fun searchForVideo(q: String, count: Int): SearchResultSchema
+    suspend fun searchForVideo(q: String, count: Int): SearchSchema
 }

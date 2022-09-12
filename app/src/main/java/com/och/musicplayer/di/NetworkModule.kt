@@ -3,7 +3,7 @@ package com.och.musicplayer.di
 import com.och.musicplayer.BuildConfig
 import com.och.musicplayer.data.network.DefaultMusicPlayerNetwork
 import com.och.musicplayer.data.network.MusicPlayerNetwork
-import com.och.musicplayer.data.network.YoutubeApi
+import com.och.musicplayer.data.network.YouTubeApi
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -17,14 +17,14 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRemoteDataSource(api: YoutubeApi): MusicPlayerNetwork {
+    fun provideRemoteDataSource(api: YouTubeApi): MusicPlayerNetwork {
         return DefaultMusicPlayerNetwork(api)
     }
 
     @Provides
     @Singleton
-    fun provideYoutubeApi(retrofit: Retrofit): YoutubeApi {
-        return retrofit.create(YoutubeApi::class.java)
+    fun provideYoutubeApi(retrofit: Retrofit): YouTubeApi {
+        return retrofit.create(YouTubeApi::class.java)
     }
 
     @Provides

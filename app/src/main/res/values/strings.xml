@@ -9,6 +9,7 @@
     <string name="home_mini_player_play_pause_desc">play/pause button</string>
     <string name="home_mini_player_next_desc">next song button</string>
     <string name="menu_search">Search</string>
+    <string name="menu_refresh">Refresh</string>
 
     <!-- PlayerFragment -->
     <string name="player_playing_now">Playing Now</string>

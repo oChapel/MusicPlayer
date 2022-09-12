@@ -1,8 +1,8 @@
 package com.och.musicplayer.ui.adapter
 
-import com.och.musicplayer.data.dto.YoutubeItem
+import com.och.musicplayer.data.dto.YouTubeItem
 
 sealed class ClickEvent {
 
-    class OnItemClicked(val item: YoutubeItem) : ClickEvent()
+    class OnItemClicked(val item: YouTubeItem) : ClickEvent()
 }

@@ -1,6 +1,6 @@
 package com.och.musicplayer.data.dto
 
-interface YoutubeItem {
+interface YouTubeItem {
 
     fun getViewHolderType(): Int
 

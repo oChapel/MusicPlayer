@@ -1,26 +1,26 @@
 package com.och.musicplayer.ui.adapter
 
 import androidx.recyclerview.widget.DiffUtil
-import com.och.musicplayer.data.dto.SearchVideo
-import com.och.musicplayer.data.dto.Song
-import com.och.musicplayer.data.dto.YoutubeItem
+import com.och.musicplayer.data.dto.SearchItem
+import com.och.musicplayer.data.dto.PlaylistItem
+import com.och.musicplayer.data.dto.YouTubeItem
 
-object SongDiffCallback : DiffUtil.ItemCallback<YoutubeItem>() {
+object SongDiffCallback : DiffUtil.ItemCallback<YouTubeItem>() {
 
-    override fun areItemsTheSame(oldItem: YoutubeItem, newItem: YoutubeItem): Boolean {
-        return if (oldItem is Song && newItem is Song) {
+    override fun areItemsTheSame(oldItem: YouTubeItem, newItem: YouTubeItem): Boolean {
+        return if (oldItem is PlaylistItem && newItem is PlaylistItem) {
             oldItem.id == newItem.id
-        } else if (oldItem is SearchVideo && newItem is SearchVideo) {
+        } else if (oldItem is SearchItem && newItem is SearchItem) {
             oldItem.id.videoId == newItem.id.videoId
         } else {
             false
         }
     }
 
-    override fun areContentsTheSame(oldItem: YoutubeItem, newItem: YoutubeItem): Boolean {
-        return if (oldItem is Song && newItem is Song) {
+    override fun areContentsTheSame(oldItem: YouTubeItem, newItem: YouTubeItem): Boolean {
+        return if (oldItem is PlaylistItem && newItem is PlaylistItem) {
             oldItem == newItem
-        } else if (oldItem is SearchVideo && newItem is SearchVideo) {
+        } else if (oldItem is SearchItem && newItem is SearchItem) {
             oldItem == newItem
         } else {
             false

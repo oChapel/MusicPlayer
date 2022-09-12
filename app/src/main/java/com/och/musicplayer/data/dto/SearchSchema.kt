@@ -1,21 +1,21 @@
 package com.och.musicplayer.data.dto
 
-data class SearchResultSchema(
+data class SearchSchema(
     val etag: String,
-    val items: List<SearchVideo>,
+    val items: List<SearchItem>,
     val kind: String,
     val nextPageToken: String,
     val pageInfo: PageInfo,
     val regionCode: String
 )
 
-data class SearchVideo(
+data class SearchItem(
     val etag: String,
     val id: Id,
     val kind: String,
     val snippet: SearchSnippet
-) : YoutubeItem {
-    override fun getViewHolderType(): Int = YoutubeItem.ITEM_SEARCH_DETAIL
+) : YouTubeItem {
+    override fun getViewHolderType(): Int = YouTubeItem.ITEM_SEARCH_DETAIL
 }
 
 data class Id(

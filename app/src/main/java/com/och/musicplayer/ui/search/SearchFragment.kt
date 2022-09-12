@@ -2,6 +2,7 @@ package com.och.musicplayer.ui.search
 
 import android.os.Bundle
 import android.view.*
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -9,10 +10,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.och.musicplayer.R
-import com.och.musicplayer.data.dto.SearchVideo
-import com.och.musicplayer.data.dto.YoutubeItem
-import com.och.musicplayer.data.dto.YoutubeItems
-import com.och.musicplayer.databinding.FragmentSearchResultBinding
+import com.och.musicplayer.data.dto.SearchItem
+import com.och.musicplayer.data.dto.YouTubeItem
+import com.och.musicplayer.databinding.FragmentSearchBinding
 import com.och.musicplayer.ui.MusicPlayerViewModelFactory
 import com.och.musicplayer.ui.adapter.ClickEvent
 import com.och.musicplayer.ui.adapter.YoutubeContentRecyclerAdapter
@@ -28,7 +28,7 @@ class SearchFragment : HostedFragment<
         SearchContract.ViewModel,
         SearchContract.Host>(), SearchContract.View {
 
-    private var binding: FragmentSearchResultBinding? = null
+    private var binding: FragmentSearchBinding? = null
     private val args: SearchFragmentArgs by navArgs()
     private val rvAdapter = YoutubeContentRecyclerAdapter()
     private val queryTextListener = object : SearchView.OnQueryTextListener {
@@ -36,6 +36,7 @@ class SearchFragment : HostedFragment<
             query?.let { model?.searchForVideo(it) }
             return false
         }
+
         override fun onQueryTextChange(newText: String?): Boolean = false
     }
 
@@ -52,15 +53,10 @@ class SearchFragment : HostedFragment<
 
         lifecycleScope.launch {
             rvAdapter.getClickFlow().collect {
-                val clickEventItem = (it as ClickEvent.OnItemClicked).item as SearchVideo
-                findNavController().navigate(
-                    SearchFragmentDirections.actionSearchResultFragmentToPlayerFragment(
-                        YoutubeItems(rvAdapter.currentList),
-                        rvAdapter.currentList.indexOf(clickEventItem)
-                        /*clickEventItem.id.videoId,
-                        clickEventItem.snippet.title,
-                        clickEventItem.snippet.channelTitle,*/
-                    )
+                val clickEventItem = (it as ClickEvent.OnItemClicked).item as SearchItem
+                fragmentHost?.loadVideos(
+                    rvAdapter.currentList,
+                    rvAdapter.currentList.indexOf(clickEventItem)
                 )
             }
         }
@@ -70,13 +66,14 @@ class SearchFragment : HostedFragment<
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentSearchResultBinding.inflate(inflater, container, false)
+        binding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding?.root
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         val searchView = menu.findItem(R.id.action_search).actionView as SearchView
         searchView.setOnQueryTextListener(queryTextListener)
+        menu.findItem(R.id.action_refresh).isVisible = false
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -87,6 +84,17 @@ class SearchFragment : HostedFragment<
             adapter = rvAdapter
             layoutManager = LinearLayoutManager(context)
         }
+
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    if (fragmentHost?.isPlayerInFocus() == false) {
+                        findNavController().popBackStack()
+                    }
+                }
+            }
+        )
     }
 
     override fun setProgressVisibility(isVisible: Boolean) {
@@ -114,7 +122,7 @@ class SearchFragment : HostedFragment<
         }
     }
 
-    override fun showSearchResults(list: List<YoutubeItem>) {
+    override fun showSearchResults(list: List<YouTubeItem>) {
         rvAdapter.submitList(list)
     }
 
