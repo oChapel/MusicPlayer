@@ -33,7 +33,7 @@ class PlayerActivity : AppCompatActivity(), View.OnClickListener, HomeContract.H
 
     private lateinit var binding: ActivityPlayerBinding
 
-    private val currentQueue = ArrayList<YouTubeItem>()
+    private val currentQueue: MutableList<YouTubeItem> = ArrayList()
     private var currentPositionInQueue: Int = 0
     private var youtubePlayer: YouTubePlayer? = null
     private val handler = Handler(Looper.getMainLooper())
@@ -52,10 +52,6 @@ class PlayerActivity : AppCompatActivity(), View.OnClickListener, HomeContract.H
         setContentView(binding.root)
         setSupportActionBar(binding.mainToolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
-
-        val youTubePlayerFragment =
-            binding.playerYoutubeView.getFragment<YouTubePlayerSupportFragmentX>()
-        youTubePlayerFragment.initialize(BuildConfig.YOUTUBE_API_KEY, this)
 
         binding.playerButtonPlayPause.setOnClickListener(this)
         binding.playerButtonPrev.setOnClickListener(this)
@@ -86,9 +82,7 @@ class PlayerActivity : AppCompatActivity(), View.OnClickListener, HomeContract.H
         youtubePlayer?.setPlaylistEventListener(this)
         youtubePlayer?.setPlayerStateChangeListener(this)
         youtubePlayer?.setPlaybackEventListener(this)
-
-        binding.playerCurrentTime.text = youtubePlayer?.currentTimeMillis?.toString()
-        binding.playerDurationTime.text = youtubePlayer?.durationMillis?.toString()
+        youtubePlayer?.loadVideos(getVideoIdList(currentQueue), currentPositionInQueue, 0)
     }
 
     override fun onInitializationFailure(
@@ -136,8 +130,6 @@ class PlayerActivity : AppCompatActivity(), View.OnClickListener, HomeContract.H
         handler.post(runnable)
         binding.playerButtonPlayPause.setImageResource(R.drawable.ic_pause)
         binding.miniPlayerButtonPlayPause.setImageResource(R.drawable.ic_pause)
-        binding.playerCurrentTime.text =
-            Utils.getStringTime(youtubePlayer?.currentTimeMillis)
     }
 
     override fun onPaused() {
@@ -202,14 +194,18 @@ class PlayerActivity : AppCompatActivity(), View.OnClickListener, HomeContract.H
     }
 
     override fun loadVideos(list: List<YouTubeItem>, startIndex: Int) {
+        youtubePlayer?.release()
+        handler.removeCallbacks(runnable)
+
         currentQueue.apply {
             clear()
             addAll(list)
         }
         currentPositionInQueue = startIndex
-        youtubePlayer?.loadVideos(getVideoIdList(list), startIndex, 0)
-        binding.root.panelState = SlidingUpPanelLayout.PanelState.EXPANDED
         updateTextViews(currentQueue[currentPositionInQueue])
+        binding.root.panelState = SlidingUpPanelLayout.PanelState.EXPANDED
+
+        initializePlayer()
     }
 
     override fun isPlayerInFocus(): Boolean {
@@ -228,6 +224,12 @@ class PlayerActivity : AppCompatActivity(), View.OnClickListener, HomeContract.H
             setError(error)
             show(supportFragmentManager, ErrorFragment.TAG)
         }
+    }
+
+    private fun initializePlayer() {
+        val youTubePlayerFragment =
+            binding.playerYoutubeView.getFragment<YouTubePlayerSupportFragmentX>()
+        youTubePlayerFragment.initialize(BuildConfig.YOUTUBE_API_KEY, this)
     }
 
     private fun displayCurrentTime() {
