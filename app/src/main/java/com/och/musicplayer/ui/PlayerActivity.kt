@@ -1,6 +1,8 @@
 package com.och.musicplayer.ui
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.Menu
 import android.view.View
 import android.widget.SeekBar
@@ -12,8 +14,8 @@ import com.google.android.youtube.player.YouTubePlayerSupportFragmentX
 import com.och.musicplayer.App
 import com.och.musicplayer.BuildConfig
 import com.och.musicplayer.R
-import com.och.musicplayer.data.dto.SearchItem
 import com.och.musicplayer.data.dto.PlaylistItem
+import com.och.musicplayer.data.dto.SearchItem
 import com.och.musicplayer.data.dto.YouTubeItem
 import com.och.musicplayer.databinding.ActivityPlayerBinding
 import com.och.musicplayer.di.DaggerAppComponent
@@ -34,6 +36,13 @@ class PlayerActivity : AppCompatActivity(), View.OnClickListener, HomeContract.H
     private val currentQueue = ArrayList<YouTubeItem>()
     private var currentPositionInQueue: Int = 0
     private var youtubePlayer: YouTubePlayer? = null
+    private val handler = Handler(Looper.getMainLooper())
+    private val runnable = object : Runnable {
+        override fun run() {
+            displayCurrentTime()
+            handler.postDelayed(this, 100)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -110,12 +119,9 @@ class PlayerActivity : AppCompatActivity(), View.OnClickListener, HomeContract.H
     }
 
     override fun onLoaded(videoId: String?) {
-        binding.playerCurrentTime.text =
-            Utils.getStringTime(youtubePlayer?.currentTimeMillis) //TODO
         binding.playerDurationTime.text = Utils.getStringTime(youtubePlayer?.durationMillis)
-
-        binding.playerSeekbar.progress = youtubePlayer?.currentTimeMillis!! //TODO
         binding.playerSeekbar.max = youtubePlayer?.durationMillis!!
+        binding.miniPlayerSeekbar.max = youtubePlayer?.durationMillis!!
 
         val url = currentQueue[currentPositionInQueue].let {
             if (it is PlaylistItem) it.snippet.thumbnails.maxres?.url
@@ -127,23 +133,23 @@ class PlayerActivity : AppCompatActivity(), View.OnClickListener, HomeContract.H
     }
 
     override fun onPlaying() {
+        handler.post(runnable)
         binding.playerButtonPlayPause.setImageResource(R.drawable.ic_pause)
         binding.miniPlayerButtonPlayPause.setImageResource(R.drawable.ic_pause)
+        binding.playerCurrentTime.text =
+            Utils.getStringTime(youtubePlayer?.currentTimeMillis)
     }
 
     override fun onPaused() {
+        handler.removeCallbacks(runnable)
         binding.playerButtonPlayPause.setImageResource(R.drawable.ic_play)
         binding.miniPlayerButtonPlayPause.setImageResource(R.drawable.ic_play)
     }
 
     override fun onStopped() {
+        handler.removeCallbacks(runnable)
         binding.playerButtonPlayPause.setImageResource(R.drawable.ic_play)
         binding.miniPlayerButtonPlayPause.setImageResource(R.drawable.ic_play)
-    }
-
-    override fun onSeekTo(i: Int) {
-        binding.playerCurrentTime.text =
-            Utils.getStringTime(youtubePlayer?.currentTimeMillis)
     }
 
     override fun onError(reason: YouTubePlayer.ErrorReason?) {
@@ -168,6 +174,7 @@ class PlayerActivity : AppCompatActivity(), View.OnClickListener, HomeContract.H
 
     override fun onStopTrackingTouch(seekbar: SeekBar?) {
         youtubePlayer?.seekToMillis(seekbar?.progress!!)
+        displayCurrentTime()
     }
 
     override fun onClick(view: View?) {
@@ -221,6 +228,13 @@ class PlayerActivity : AppCompatActivity(), View.OnClickListener, HomeContract.H
             setError(error)
             show(supportFragmentManager, ErrorFragment.TAG)
         }
+    }
+
+    private fun displayCurrentTime() {
+        binding.playerCurrentTime.text =
+            Utils.getStringTime(youtubePlayer?.currentTimeMillis)
+        binding.playerSeekbar.progress = youtubePlayer?.currentTimeMillis!!
+        binding.miniPlayerSeekbar.progress = youtubePlayer?.currentTimeMillis!!
     }
 
     private fun updateTextViews(item: YouTubeItem) {

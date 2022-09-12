@@ -15,7 +15,7 @@ interface YouTubePlayerListeners : YouTubePlayer.OnInitializedListener, YouTubeP
 
     override fun onVideoEnded() {}
 
-
+    override fun onSeekTo(i: Int) {}
 
     override fun onBuffering(p0: Boolean) {}
 
