@@ -10,13 +10,14 @@ import com.och.musicplayer.databinding.ItemSearchResultBinding
 import com.och.musicplayer.databinding.ItemTop100Binding
 import com.och.musicplayer.databinding.ItemTop10Binding
 import com.och.musicplayer.ui.adapter.holders.SearchResultItemHolder
-import com.och.musicplayer.ui.adapter.holders.SongViewHolder
 import com.och.musicplayer.ui.adapter.holders.Top100ItemHolder
 import com.och.musicplayer.ui.adapter.holders.Top10ItemHolder
+import com.och.musicplayer.ui.adapter.holders.YouTubeItemViewHolder
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 
-class YoutubeContentRecyclerAdapter : ListAdapter<YouTubeItem, SongViewHolder<YouTubeItem>>(SongDiffCallback) {
+class YouTubeContentRecyclerAdapter :
+    ListAdapter<YouTubeItem, YouTubeItemViewHolder<YouTubeItem>>(YouTubeItemDiffCallback) {
 
     private val clickFlow = MutableSharedFlow<ClickEvent>(extraBufferCapacity = 1)
 
@@ -24,7 +25,10 @@ class YoutubeContentRecyclerAdapter : ListAdapter<YouTubeItem, SongViewHolder<Yo
 
     override fun getItemViewType(position: Int): Int = getItem(position).getViewHolderType()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SongViewHolder<YouTubeItem> {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): YouTubeItemViewHolder<YouTubeItem> {
         val vh = when (viewType) {
             ITEM_TOP10 -> Top10ItemHolder(
                 ItemTop10Binding.inflate(
@@ -42,10 +46,10 @@ class YoutubeContentRecyclerAdapter : ListAdapter<YouTubeItem, SongViewHolder<Yo
                 ), clickFlow
             )
         }
-        return vh as SongViewHolder<YouTubeItem>
+        return vh as YouTubeItemViewHolder<YouTubeItem>
     }
 
-    override fun onBindViewHolder(holder: SongViewHolder<YouTubeItem>, position: Int) {
+    override fun onBindViewHolder(holder: YouTubeItemViewHolder<YouTubeItem>, position: Int) {
         holder.bind(getItem(position))
     }
 }

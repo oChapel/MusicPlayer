@@ -15,7 +15,7 @@ import com.och.musicplayer.data.dto.YouTubeItem
 import com.och.musicplayer.databinding.FragmentSearchBinding
 import com.och.musicplayer.ui.MusicPlayerViewModelFactory
 import com.och.musicplayer.ui.adapter.ClickEvent
-import com.och.musicplayer.ui.adapter.YoutubeContentRecyclerAdapter
+import com.och.musicplayer.ui.adapter.YouTubeContentRecyclerAdapter
 import com.och.musicplayer.ui.search.state.SearchScreenEffect
 import com.och.musicplayer.ui.search.state.SearchScreenState
 import com.och.mvi.fragments.HostedFragment
@@ -30,7 +30,7 @@ class SearchFragment : HostedFragment<
 
     private var binding: FragmentSearchBinding? = null
     private val args: SearchFragmentArgs by navArgs()
-    private val rvAdapter = YoutubeContentRecyclerAdapter()
+    private val rvAdapter = YouTubeContentRecyclerAdapter()
     private val queryTextListener = object : SearchView.OnQueryTextListener {
         override fun onQueryTextSubmit(query: String?): Boolean {
             query?.let { model?.searchForVideo(it) }

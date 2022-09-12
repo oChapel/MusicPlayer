@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 class Top10ItemHolder(
     private val binding: ItemTop10Binding,
     private val clickFLow: MutableSharedFlow<ClickEvent>
-) : SongViewHolder<PlaylistItem>(binding.root), View.OnClickListener {
+) : YouTubeItemViewHolder<PlaylistItem>(binding.root), View.OnClickListener {
 
     private var playlistItem: PlaylistItem? = null
 

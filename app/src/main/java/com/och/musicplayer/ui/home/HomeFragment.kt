@@ -14,7 +14,7 @@ import com.och.musicplayer.data.dto.PlaylistItem
 import com.och.musicplayer.databinding.FragmentHomeBinding
 import com.och.musicplayer.ui.MusicPlayerViewModelFactory
 import com.och.musicplayer.ui.adapter.ClickEvent
-import com.och.musicplayer.ui.adapter.YoutubeContentRecyclerAdapter
+import com.och.musicplayer.ui.adapter.YouTubeContentRecyclerAdapter
 import com.och.musicplayer.ui.home.states.HomeScreenEffect
 import com.och.musicplayer.ui.home.states.HomeScreenState
 import com.och.mvi.fragments.HostedFragment
@@ -28,8 +28,8 @@ class HomeFragment : HostedFragment<
         HomeContract.Host>(), HomeContract.View {
 
     private var binding: FragmentHomeBinding? = null
-    private val top10RvAdapter = YoutubeContentRecyclerAdapter()
-    private val top100RvAdapter = YoutubeContentRecyclerAdapter()
+    private val top10RvAdapter = YouTubeContentRecyclerAdapter()
+    private val top100RvAdapter = YouTubeContentRecyclerAdapter()
     private val queryTextListener = object : SearchView.OnQueryTextListener {
         override fun onQueryTextSubmit(query: String?): Boolean {
             query?.let {

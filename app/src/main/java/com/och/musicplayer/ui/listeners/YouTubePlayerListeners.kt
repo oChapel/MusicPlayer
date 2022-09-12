@@ -2,8 +2,9 @@ package com.och.musicplayer.ui.listeners
 
 import com.google.android.youtube.player.YouTubePlayer
 
-interface YouTubePlayerListeners : YouTubePlayer.OnInitializedListener, YouTubePlayer.PlaylistEventListener,
-    YouTubePlayer.PlayerStateChangeListener, YouTubePlayer.PlaybackEventListener {
+interface YouTubePlayerListeners : YouTubePlayer.OnInitializedListener,
+    YouTubePlayer.PlaylistEventListener, YouTubePlayer.PlayerStateChangeListener,
+    YouTubePlayer.PlaybackEventListener {
 
     override fun onPlaylistEnded() {}
 

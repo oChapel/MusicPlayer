@@ -1,11 +1,11 @@
 package com.och.musicplayer.ui.adapter
 
 import androidx.recyclerview.widget.DiffUtil
-import com.och.musicplayer.data.dto.SearchItem
 import com.och.musicplayer.data.dto.PlaylistItem
+import com.och.musicplayer.data.dto.SearchItem
 import com.och.musicplayer.data.dto.YouTubeItem
 
-object SongDiffCallback : DiffUtil.ItemCallback<YouTubeItem>() {
+object YouTubeItemDiffCallback : DiffUtil.ItemCallback<YouTubeItem>() {
 
     override fun areItemsTheSame(oldItem: YouTubeItem, newItem: YouTubeItem): Boolean {
         return if (oldItem is PlaylistItem && newItem is PlaylistItem) {

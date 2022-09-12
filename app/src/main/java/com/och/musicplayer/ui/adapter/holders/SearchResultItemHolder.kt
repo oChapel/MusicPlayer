@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 class SearchResultItemHolder(
     private val binding: ItemSearchResultBinding,
     private val clickFlow: MutableSharedFlow<ClickEvent>
-) : SongViewHolder<SearchItem>(binding.root), View.OnClickListener {
+) : YouTubeItemViewHolder<SearchItem>(binding.root), View.OnClickListener {
 
     private var searchItem: SearchItem? = null
 
